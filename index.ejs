@@ -1,0 +1,58 @@
+<%- include('partials/header', { title: 'Home' }) %>
+
+<div class="page-home">
+
+  <!-- Hero strip -->
+  <section class="home-hero">
+    <div class="hero-eyebrow">Personal Journal</div>
+    <h1 class="hero-headline">
+      Ideas worth<br /><em>remembering.</em>
+    </h1>
+    <p class="hero-sub">
+      A quiet place for essays, reflections, and notes. Write anything. Keep everything.
+    </p>
+    <a href="/posts/new" class="btn-primary">Start Writing</a>
+  </section>
+
+  <!--<div class="divider-ornament">&#8213;</div>-->
+
+  <!-- Post list -->
+  <section class="posts-section">
+    <% if (posts.length === 0) { %>
+      <div class="empty-state">
+        <p class="empty-icon">✦</p>
+        <p class="empty-msg">No posts yet. Be the first to write something.</p>
+        <a href="/posts/new" class="btn-ghost">Write a post</a>
+      </div>
+    <% } else { %>
+      <div class="posts-count"><%= posts.length %> post<%= posts.length !== 1 ? 's' : '' %></div>
+      <ul class="posts-list">
+        <% posts.forEach((post, i) => { %>
+          <li class="post-card" style="--i: <%= i %>">
+            <div class="post-card-meta">
+              <span class="post-tag"><%= post.tag %></span>
+              <time class="post-date"><%= formatDate(post.date) %></time>
+            </div>
+            <a href="/posts/<%= post.id %>" class="post-card-title-link">
+              <h2 class="post-card-title"><%= post.title %></h2>
+            </a>
+            <p class="post-card-excerpt"><%= post.excerpt %></p>
+            <div class="post-card-footer">
+              <span class="post-author">— <%= post.author %></span>
+              <div class="post-actions">
+                <a href="/posts/<%= post.id %>" class="action-link">Read</a>
+                <a href="/posts/<%= post.id %>/edit" class="action-link">Edit</a>
+                <form action="/posts/<%= post.id %>/delete" method="POST" class="inline-form">
+                  <button type="submit" class="action-link action-delete" onclick="return confirm('Delete this post?')">Delete</button>
+                </form>
+              </div>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+
+</div>
+
+<%- include('partials/footer') %>
